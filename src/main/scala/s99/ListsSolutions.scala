@@ -14,18 +14,24 @@ trait ListsSolutions {
     def _flatten[Any](x: Any): List[Int] = {
       x match {
         case l: List[_] => flatten(l)
-        case e:Int => List[Int](e)
+        case e: Int => List[Int](e)
       }
     }
     list.foldLeft(List[Int]())((r, c) => r ::: _flatten(c))
   }
-//  def compress[T](list: List[T]): List[T] = list.foldLeft(List[T]())((r, c) => if(r.length == 0 || r.head != c) c :: r else r) reverse
-  def compress[T](list: List[T]): List[T] = list.foldLeft(List[T]())((r, c) => if(r.length == 0 || r.head != c) c :: r else r) reverse
+  def compress[T](list: List[T]): List[T] = list.foldLeft(List[T]())((r, c) => if (r.length == 0 || r.head != c) c :: r else r) reverse
 
-  //def pack[T](list: List[T]): List[List[T]] = {
-  //  list.foldLeft(List[List[T]]())((r, c) => )
-  //} 
-  def encode[T](list: List[T]): List[(Int, T)] = ???
+  def pack[T](list: List[T]): List[List[T]] = {
+    if (list.isEmpty) List[List[T]]()
+    else {
+      val (packed, unpacked) = list.span(_ == list.head)
+      packed :: pack(unpacked)
+    }
+  }
+  def encode[T](list: List[T]): List[(Int, T)] = {
+    val temp = pack(list)
+    temp.map(50)
+  }
   def encodeModified[T](list: List[T]): List[Any] = ???
   def decode[T](list: List[(Int, T)]): List[T] = ???
   def encodeDirect[T](list: List[T]): List[(Int, T)] = ???
